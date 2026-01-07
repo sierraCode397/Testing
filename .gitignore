@@ -1,0 +1,23 @@
+# Terraform and sensitive files
+
+# Terraform state & lock files
+.terraform/
+tfstate
+terraform.tfstate*
+.terraform.lock.hcl
+
+# Private keys
+*.pem
+*.key
+
+# Variable files that may contain secrets
+*.tfvars
+*.tfvars.json
+
+# IDE / editor artefacts
+.idea/
+.vscode/
+*.sublime-workspace
+
+# Optional environment file
+.env

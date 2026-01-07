@@ -1,4 +1,3 @@
-terraform/main.tf
 
 terraform {
   required_version = ">= 1.3.0"
@@ -35,13 +34,13 @@ resource "aws_key_pair" "ssh" {
 
 # Persist the private key locally for the user
 resource "local_file" "private_key" {
-  filename = "${path.module}/${var.key_name}.pem"
-  content  = tls_private_key.ssh_key.private_key_pem
+  filename        = "${path.module}/${var.key_name}.pem"
+  content         = tls_private_key.ssh_key.private_key_pem
   file_permission = "0600"
 }
 
 module "vpc" {
-  source = "./modules/vpc"
+  source     = "./modules/vpc"
   cidr_block = var.vpc_cidr
 }
 
@@ -63,7 +62,7 @@ data "aws_ami" "ubuntu" {
 }
 
 module "ec2" {
-  source = "./modules/ec2"
+  source        = "./modules/ec2"
   instance_name = var.instance_name
   ami_id        = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
@@ -71,7 +70,7 @@ module "ec2" {
   sg_ids        = [module.security_group.default_sg_id]
   user_data     = file("${path.module}/user_data.sh")
   key_name      = var.key_name
-  depends_on = [aws_key_pair.ssh]
+  depends_on    = [aws_key_pair.ssh]
 }
 
 output "instance_public_ip" {
